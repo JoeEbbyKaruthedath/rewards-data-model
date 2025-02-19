@@ -4,7 +4,7 @@ Steps to run the code
 - Make sure you have docker desktop installed
 -Clone the repo
 - Run docker-compose up, This will start PostgreSQL and any other required services
-- Then run the db_setup.py python file. This script creates the necessary tables and connects to the PostgreSQL database.
+- Then run the db_setup.py python file. This script creates the necessary databases and connects to the PostgreSQL database.
 
 Part 1
   - Data Model Diagram (ERD)
