@@ -15,7 +15,7 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-# Fetch all users
+
 query = """
 WITH latest_date AS (
     SELECT MAX(createdDate) AS latest_created_date

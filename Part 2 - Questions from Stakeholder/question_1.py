@@ -15,7 +15,7 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-# Fetch all users
+
 query = """
 WITH recent_month AS (
     SELECT DATE_TRUNC('month', MAX(fr.date_scanned)) AS latest_month

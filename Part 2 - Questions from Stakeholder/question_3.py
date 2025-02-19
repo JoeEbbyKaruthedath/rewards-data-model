@@ -15,7 +15,7 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-# Fetch all users
+
 query = """
 SELECT rewards_receipt_status,
     AVG(total_spent) average_spent
