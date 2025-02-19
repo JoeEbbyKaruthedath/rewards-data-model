@@ -1,0 +1,4 @@
+•	Receipts.json:
+    o	Several users in the receipts.json file are not part of the dim users file.
+    	I have ignored these receipts when I created the fact_receipts and fact_receipt items table if the users are not part of the dim_users file
+

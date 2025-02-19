@@ -1,0 +1,43 @@
+Subject: Data Quality Issues in Receipts and Brand Linkage
+
+Hi Stakeholder,
+As part of our data validation efforts, I have identified several critical data quality issues that impact our ability to link receipt transactions to users and brands. Below is a summary of our findings and potential implications:
+
+Key Findings:
+1.	18% of users are missing a last login date
+    o	This suggests that a significant portion of users may be inactive or were imported incorrectly.
+2.	23% of brand codes are missing in the dim_brands table
+    o	This is a major issue because there is no brand_id in receipts.json, meaning we cannot link 23% of items to their respective brands.
+    o	Ideally, brand_id should be included in receipts.json to ensure proper linkage.
+3.	51 receipts have an implausible time gap (>150 days) between purchase and scan date
+    o	Some records even exceed 1,000 days of delay, which raises concerns about data accuracy.
+    o	These records may indicate data entry errors or issues with how timestamps are being recorded.
+4.	88% of items in dim_items are missing a brand_id
+    o	This means that nearly 90% of receipt items cannot be connected to their brands, making brand-related analytics and insights unreliable.
+5.	Several users in receipts.json do not exist in dim_users
+    o	Receipts with missing users were ignored when creating fact_receipts, which may lead to underreporting of transaction data.
+
+Next Steps & Questions for Resolution:
+•	Receipts & Users:
+    o	Should we allow orphaned receipts (receipts with missing users), or should we ensure dim_users is updated before ingestion?
+    o	Are there cases where users are deliberately not included in dim_users?
+•	Brand Linking:
+    o	Can we repopulate brand_code for the missing 23% by cross-referencing other datasets?
+    o	Should we consider updating receipts.json to include brand_id directly?
+    o	Do we have historical mappings of brand_code to brand_id that could help fill these gaps?
+•	Purchase vs. Scan Date Anomalies:
+    o	Do we need business rules to flag transactions where the purchase date is significantly different from the scan date?
+    o	Should we exclude these records from analysis, or is there a valid reason for such long gaps?
+
+Performance & Scaling Considerations for Production:
+•	Fact Table Growth:
+    o	The fact_receipts and fact_receipt_items tables will grow significantly over time.
+    o	We need partitioning and indexing strategies to optimize queries for analytics and reporting.
+•	Data Quality Monitoring:
+    o	Implement automated checks (e.g., alerting when brand_code missing exceeds 5%).
+    o	Consider deduplication and validation steps before loading data into fact_receipts.
+•	Query Optimization:
+    o	Large-scale queries on missing values may slow down performance.
+    o	Possible precomputed aggregates or materialized views for high-volume queries.
+
+Would love to discuss these findings in our next sync. Let me know if you have any thoughts or need further details!
